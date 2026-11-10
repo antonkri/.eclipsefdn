@@ -1338,9 +1338,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       # Deviations from standard dependable element repository settings:
       allow_rebase_merge: true,
       allow_update_branch: true,
-      branch_protection_rules: [
-        main_branch_protection_rule
-      ],
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -1352,6 +1349,22 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           allows_force_pushes: false,
           requires_linear_history: true,
+          required_status_checks+: {
+            status_checks+: [
+              "Build Bazel Code",
+              "qnx-build (arm64-qnx) / Build QNX target",
+              "qnx-build (x86_64-qnx) / Build QNX target",
+              "formatting-check / format-check",
+              "copyright-check / copyright-check",
+              "clang-tidy",
+              "Bazel Tests (asan_ubsan_lsan)",
+              "Bazel Tests (tsan)",
+            ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "SQUASH",
+            status_check_timeout: 120,
+          },
         },
       ],
     },
