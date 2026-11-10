@@ -1337,6 +1337,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
       # Deviations from standard dependable element repository settings:
       allow_rebase_merge: true,
+      allow_merge_commit: true,
       allow_update_branch: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -1348,7 +1349,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/cft-logging",
           ],
           allows_force_pushes: false,
-          requires_linear_history: true,
           required_status_checks+: {
             status_checks+: [
               "Build Bazel Code",
@@ -1362,7 +1362,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
-            merge_method: "SQUASH",
+            merge_method: "MERGE",
             status_check_timeout: 120,
           },
         },
